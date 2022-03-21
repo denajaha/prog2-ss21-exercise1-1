@@ -3,30 +3,27 @@ import java.util.List;
 
 public class Result {
 
-    public static List<Integer> gradingStudents(List<Integer> grades) {
-        for (int i = 0; i < grades.size(); i++) {
-            if (grades.get(i) < 40) {
-                grades.remove(i);
+    protected static List<Integer> gradingStudents(List<Integer> grades) {
+
+        List<Integer> validGrades = new ArrayList<>();
+
+        for (Integer grade : grades) {
+            if (checkValidityOfRange(grade)) {
+                validGrades.add(grade);
             }
-            int normalMod5 = grades.get(i) % 5;
-            if (normalMod5 == 3) {
-                grades.set(i, grades.get(i) + 2);
-            }
-            if (normalMod5 == 4) {
-                grades.set(i, grades.get(i) + 1);
-            }
-            // if we want to round down it would be done like this:
-            // else grades.set(i, grades.get(i) + 5 - normalMod5);
         }
-        return grades;
+        for (int i = 0; i < validGrades.size(); i++) {
+            int normalMod5 = validGrades.get(i) % 5;
+            if (normalMod5 == 3) {
+                validGrades.set(i, validGrades.get(i) + 2);
+            } else if (normalMod5 == 4) {
+                validGrades.set(i, validGrades.get(i) + 1);
+            }
+        }
+        return validGrades;
     }
-    public static void main(String[] args) {
-        List<Integer> test = new ArrayList<>() {};
-        test.add(33);
-        test.add(84);
-        test.add(29);
-        test.add(57);
-        gradingStudents(test);
-        System.out.println(test);
+
+    protected static boolean checkValidityOfRange(int value) {
+        return (value > 40 && value <= 100);
     }
 }
